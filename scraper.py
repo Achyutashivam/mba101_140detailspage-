@@ -5588,10 +5588,21 @@ def scrape_placement_report(driver,URLS):
 
 
 def scrape_cutoff(driver, URLS):
+    from selenium.common.exceptions import (
+    InvalidSessionIdException,
+    TimeoutException,
+    WebDriverException
+    )
     try:
         driver.get(URLS["cutoff"])
-    except selenium.common.exceptions.InvalidSessionIdException:
-        driver = webdriver.Chrome(options=options)
+    except (InvalidSessionIdException, TimeoutException, WebDriverException):
+        try:
+            driver.quit()
+        except:
+            pass
+
+        driver = create_driver()
+        driver.set_page_load_timeout(60)
         driver.get(URLS["cutoff"])
 
     wait = WebDriverWait(driver, 20)
