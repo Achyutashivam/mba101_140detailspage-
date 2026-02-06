@@ -7,6 +7,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from bs4 import BeautifulSoup
+from selenium.common.exceptions import InvalidSessionIdException, WebDriverEx
 import time
 import json
 import re
@@ -55,27 +56,7 @@ BASE_URL = [
     "https://www.shiksha.com/college/bharatiya-vidya-bhavan-institute-of-management-science-bimskol-salt-lake-city-kolkata-28097",
     "https://www.shiksha.com/college/hindusthan-college-of-arts-and-science-coimbatore-5228",
     "https://www.shiksha.com/college/faculty-of-management-studies-university-of-delhi-malka-ganj-28361",
-    "https://www.shiksha.com/college/tilak-raj-chadha-institute-of-management-and-technology-yamuna-nagar-2852",
-    "https://www.shiksha.com/college/ies-s-management-college-and-research-centre-bandra-west-mumbai-28220",
-    "https://www.shiksha.com/college/rathinam-college-of-arts-and-science-coimbatore-25364",
-    "https://www.shiksha.com/college/presidency-college-hebbal-bangalore-19396",
-    "https://www.shiksha.com/university/integral-university-iul-lucknow-21870",
-    "https://www.shiksha.com/university/lingaya-s-vidyapeeth-faridabad-24621",
-    "https://www.shiksha.com/college/nehru-college-of-engineering-and-research-centre-ncerc-thrissur-25023",
-    "https://www.shiksha.com/college/the-oxford-college-of-business-management-h-s-r-layout-bangalore-21403",
-    "https://www.shiksha.com/college/jnnce-jawaharlal-nehru-national-college-of-engineering-shimoga-22357",
-    "https://www.shiksha.com/college/poddar-group-of-institution-jaipur-48877",
-    "https://www.shiksha.com/college/nehru-memorial-college-tiruchirappalli-20769",
-    "https://www.shiksha.com/college/jaipuria-school-of-business-ghaziabad-48786",
-    "https://www.shiksha.com/college/sardar-vallabhbhai-patel-international-school-of-textiles-and-management-coimbatore-25334", 
-    "https://www.shiksha.com/college/the-oxford-college-of-engineering-hosur-road-bangalore-449",
-    "https://www.shiksha.com/college/coimbatore-institute-of-management-and-technology-cimat-11891",
-    "https://www.shiksha.com/college/p-k-r-arts-college-for-women-erode-22870",
-    "https://www.shiksha.com/college/harlal-institute-of-management-and-technology-greater-noida-48928",
-    "https://www.shiksha.com/college/global-business-school-hubli-28515",
-    "https://www.shiksha.com/college/christ-academy-institute-for-advanced-studies-electronic-city-phase-1-bangalore-56171",
-    "https://www.shiksha.com/college/t-john-group-of-institutions-bannerghatta-road-bangalore-28395",
-   
+
 ]
 
 
@@ -134,9 +115,16 @@ def scroll_to_bottom(driver, scroll_times=3, pause=1.5):
 
 def scrape_college_info(driver,URLS):
     import re 
+
     try:
         driver.get(URLS["college_info"])
-    except selenium.common.exceptions.InvalidSessionIdException:
+
+    except InvalidSessionIdException:
+        try:
+            driver.quit()
+        except:
+            pass
+
         driver = webdriver.Chrome(options=options)
         driver.get(URLS["college_info"])
     
@@ -1456,9 +1444,16 @@ def scrape_courses(driver, URLS):
         "institute_type": None,
         "established_year": None,
     }
+
     try:
         driver.get(URLS["courses"])
-    except selenium.common.exceptions.InvalidSessionIdException:
+
+    except InvalidSessionIdException:
+        try:
+            driver.quit()
+        except:
+            pass
+
         driver = webdriver.Chrome(options=options)
         driver.get(URLS["courses"])
     
@@ -2816,10 +2811,18 @@ def scrape_faqs_section(driver):
     return result
 # ---------------- FEES ----------------
 def scrape_fees(driver, URLS):
+
     try:
         driver.get(URLS["fees"])
-    except selenium.common.exceptions.InvalidSessionIdException:
+
+    except InvalidSessionIdException:
+        try:
+            driver.quit()
+        except:
+            pass
+
         driver = webdriver.Chrome(options=options)
+
         driver.get(URLS["fees"])
     
     wait = WebDriverWait(driver, 20)
@@ -3699,10 +3702,18 @@ def scrape_review_summary(driver, URLS):
 
 
 def scrape_admission_overview(driver, URLS):
+
     try:
         driver.get(URLS["admission"])
-    except selenium.common.exceptions.InvalidSessionIdException:
+
+    except InvalidSessionIdException:
+        try:
+            driver.quit()
+        except:
+            pass
+
         driver = webdriver.Chrome(options=options)
+       
         driver.get(URLS["admission"])
     
     wait = WebDriverWait(driver, 30)
@@ -4568,10 +4579,18 @@ def scrape_admission_overview(driver, URLS):
     
 
 def scrape_placement_report(driver,URLS):
+
     try:
-        driver.get(URLS["placement"])
-    except selenium.common.exceptions.InvalidSessionIdException:
+       driver.get(URLS["placement"])
+
+    except InvalidSessionIdException:
+        try:
+            driver.quit()
+        except:
+            pass
+
         driver = webdriver.Chrome(options=options)
+     
         driver.get(URLS["placement"])
     
     wait = WebDriverWait(driver, 15)
@@ -6043,10 +6062,18 @@ def scrape_cutoff(driver, URLS):
     return college_info
 
 def scrape_ranking(driver, URLS):
+
     try:
         driver.get(URLS["ranking"])
-    except selenium.common.exceptions.InvalidSessionIdException:
+
+    except InvalidSessionIdException:
+        try:
+            driver.quit()
+        except:
+            pass
+
         driver = webdriver.Chrome(options=options)
+       
         driver.get(URLS["ranking"])
     
 
@@ -6971,10 +6998,18 @@ def scrape_ranking(driver, URLS):
 
 
 def scrape_mini_clips(driver, URLS):
+
     try:
         driver.get(URLS["gallery"])
-    except selenium.common.exceptions.InvalidSessionIdException:
+
+    except InvalidSessionIdException:
+        try:
+            driver.quit()
+        except:
+            pass
+
         driver = webdriver.Chrome(options=options)
+
         driver.get(URLS["gallery"])
     
 
@@ -7500,10 +7535,18 @@ def scrape_mini_clips(driver, URLS):
 
 
 def scrape_hostel_campus_js(driver, URLS):
+
     try:
-        driver.get(URLS["infrastructure"])
-    except selenium.common.exceptions.InvalidSessionIdException:
+       driver.get(URLS["infrastructure"])
+
+    except InvalidSessionIdException:
+        try:
+            driver.quit()
+        except:
+            pass
+
         driver = webdriver.Chrome(options=options)
+       
         driver.get(URLS["infrastructure"])
     
     wait = WebDriverWait(driver, 25)
@@ -8324,10 +8367,18 @@ def scrape_hostel_campus_js(driver, URLS):
 
 
 def parse_faculty_full_html(driver,URLS):
+
     try:
         driver.get(URLS["faculty"])
-    except selenium.common.exceptions.InvalidSessionIdException:
+
+    except InvalidSessionIdException:
+        try:
+            driver.quit()
+        except:
+            pass
+
         driver = webdriver.Chrome(options=options)
+
         driver.get(URLS["faculty"])
     wait = WebDriverWait(driver, 15)
 
@@ -8591,10 +8642,18 @@ def parse_faculty_full_html(driver,URLS):
     return {"college_info":college_info,"data":data}
 
 def parse_faculty_reviews(driver,URLS):
-    try:
+
+    try:      
         driver.get(URLS["faculty"])
-    except selenium.common.exceptions.InvalidSessionIdException:
+
+    except InvalidSessionIdException:
+        try:
+            driver.quit()
+        except:
+            pass
+
         driver = webdriver.Chrome(options=options)
+      
         driver.get(URLS["faculty"])
     wait = WebDriverWait(driver, 15)
 
@@ -8732,10 +8791,18 @@ def parse_review_summarisation_all_tabs(driver,URLS):
     return final_data
 
 def parse_articles_section(driver,URLS):
+
     try:
         driver.get(URLS["compare"])
-    except selenium.common.exceptions.InvalidSessionIdException:
+
+    except InvalidSessionIdException:
+        try:
+            driver.quit()
+        except:
+            pass
+
         driver = webdriver.Chrome(options=options)
+
         driver.get(URLS["compare"])
     
     wait = WebDriverWait(driver, 15)
@@ -8967,10 +9034,17 @@ def parse_articles_section(driver,URLS):
 
 
 def parse_faq_scholarships_section(driver, URLS):
+
     try:
-        driver.get(URLS["scholarships"])
-    except selenium.common.exceptions.InvalidSessionIdException:
+        driver.get(URLS["scholarships"]) 
+    except InvalidSessionIdException:
+        try:
+            driver.quit()
+        except:
+            pass
+
         driver = webdriver.Chrome(options=options)
+        
         driver.get(URLS["scholarships"]) 
     wait = WebDriverWait(driver, 15)
 
